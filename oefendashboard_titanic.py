@@ -125,4 +125,4 @@ if ruw:
     selectie
 
 tabel = selectie.groupby(['Haven', 'Klasse'])['Survived'].mean().reset_index()
-st.dataframe(tabel)
+st.write(tabel)
