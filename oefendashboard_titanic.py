@@ -57,7 +57,7 @@ st.sidebar.subheader("Colors")
 gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
 
 st.sidebar.subheader("Ruw")
-ruw = st.sidebar.checkbox("laat ruwe data zien)
+ruw = st.sidebar.checkbox("laat ruwe data zien")
 
 # ------------------------------------------------------------------- pagina ---
 st.title("Titanic -- wie overleefde de ramp?")
