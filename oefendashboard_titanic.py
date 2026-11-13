@@ -90,7 +90,7 @@ st.plotly_chart(figuur2, use_container_width=True)
 
 st.header("Duurste tickets")
 
-duurste = selectie.nlargest(st.slider("selectie", 5, 50, [["Name", "Klasse", "Haven", "Fare", "Survived"]]))
+duurste = selectie.nlargest(st.slider("selectie", 5, 50, ["Name", "Klasse", "Haven", "Fare", "Survived"]))
 st.dataframe(duurste, use_container_width=True)
 
 
