@@ -88,7 +88,7 @@ figuur2 = px.bar(
 st.plotly_chart(figuur2, use_container_width=True)
 
 aantal = st.slider("aantal tickets", 5, 50)
-st.header("Duurste " (f"aantal")" tickets")
+#st.header("Duurste " (f"aantal")" tickets")
 
 duurste = selectie.nlargest(aantal, "Fare")[["Name", "Klasse", "Haven", "Fare", "Survived"]]
 st.dataframe(duurste, use_container_width=True)
