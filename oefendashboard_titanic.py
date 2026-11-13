@@ -52,7 +52,7 @@ else:
     selectie = data[data["Klasse"] == gekozen_klasse]
 
 st.sidebar.subheader("Colors")
-gekozen_kleur = st.color_picker("Pick A Color", "#00f900")
+gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
 
 # ------------------------------------------------------------------- pagina ---
 st.title("Titanic -- wie overleefde de ramp?")
