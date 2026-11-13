@@ -90,7 +90,7 @@ st.plotly_chart(figuur2, use_container_width=True)
 
 st.header("Duurste tickets")
 
-duurste = selectie.nlargest(10, "Fare")[["Name", "Klasse", "Haven", "Fare", "Survived"]]
+duurste = selectie.nlargest(st.slider(5, 50))[["Name", "Klasse", "Haven", "Fare", "Survived"]]
 st.dataframe(duurste, use_container_width=True)
 
 
@@ -103,7 +103,6 @@ figuur3 = px.scatter(
     color="Klasse",
     hover_data=["Name"],
     title="Leeftijd tegen ticketprijs",
-    trendline='ols',
 )
 st.plotly_chart(figuur3, use_container_width=True)
 
