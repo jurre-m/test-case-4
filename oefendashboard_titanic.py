@@ -48,7 +48,7 @@ gekozen_klasse = st.sidebar.selectbox("Klasse", ["Alle", "1", "2", "3"])
 
 # gekozen_klasse = st.sidebar.multiselect("Klasse", ["1", "2", "3"],default=["1", "2", "3"],)
 
-if gekozen_klasse == "1", "2", "3":
+if gekozen_klasse == "Alle":
     selectie = data
 else:
     selectie = data[data["Klasse"] == gekozen_klasse]
