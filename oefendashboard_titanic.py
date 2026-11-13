@@ -61,11 +61,10 @@ st.title("Titanic -- wie overleefde de ramp?")
 
 survived = st.checkbox("Alleen overlevenden")
 
-st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
-
-
 if survived:
-    selectie[selectie["Survived"] == 1]
+    selectie = selectie[selectie["Survived"] == 1]
+
+st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
 
 
 st.header("Overlevenden per klasse")
