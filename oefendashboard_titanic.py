@@ -16,7 +16,7 @@ def laad_data():
     
     # Missende leeftijden opvullen met het gemiddelde.
     df["Age"] = df["Age"].fillna(df["Age"].mean())
-    
+    df[["Age","Survived"]].corr()
 
     # De twee rijen zonder opstapplaats gooien we weg.
     df = df.dropna(subset=["Embarked"])
@@ -110,5 +110,4 @@ st.plotly_chart(figuur3, use_container_width=True)
 st.subheader("Samenhang tussen de getalskolommen")
 st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
 
-data
-df[["Age","Survived"]].corr()
+
