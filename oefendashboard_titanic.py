@@ -110,5 +110,5 @@ st.plotly_chart(figuur3, use_container_width=True)
 st.subheader("Samenhang tussen de getalskolommen")
 st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
 
-
+data
 df[["Age","Survived"]].corr()
