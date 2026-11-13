@@ -31,7 +31,7 @@ def laad_havens():
     return pd.DataFrame(
         {
             "Embarked": ["S", "C", "Q", "S"],
-            "Haven": ["Southampton", "Cherbourg", "Queenstown", "Southampton (dok2)],
+            "Haven": ["Southampton", "Cherbourg", "Queenstown", "Southampton (dok2)"],
             "Land": ["Engeland", "Frankrijk", "Ierland", "Engeland"],
         }
     )
