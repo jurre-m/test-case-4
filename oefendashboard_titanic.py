@@ -56,6 +56,9 @@ else:
 st.sidebar.subheader("Colors")
 gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
 
+st.sidebar.subheader("Ruw")
+ruw = st.sidebar.checkbox("laat ruwe data zien)
+
 # ------------------------------------------------------------------- pagina ---
 st.title("Titanic -- wie overleefde de ramp?")
 
@@ -69,9 +72,16 @@ st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
 
 st.header("Overlevenden per klasse")
 
+
+
 # Let op: dit is een som, geen percentage.
 per_klasse = selectie.groupby("Klasse")["Survived"].sum().reset_index()
 per_klasse = per_klasse.sort_values("Klasse")
+
+
+
+
+
 
 figuur1 = px.bar(
     per_klasse,
@@ -119,4 +129,5 @@ st.plotly_chart(figuur3, use_container_width=True)
 st.subheader("Samenhang tussen de getalskolommen")
 st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
 
-
+if ruw:
+    selectie
