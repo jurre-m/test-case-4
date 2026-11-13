@@ -44,9 +44,9 @@ data = data.merge(havens, on="Embarked", how="left")
 
 # ------------------------------------------------------------------ sidebar ---
 st.sidebar.header("Filters")
-gekozen_klasse = st.sidebar.selectbox("Klasse", ["Alle", "1", "2", "3"])
+# gekozen_klasse = st.sidebar.selectbox("Klasse", ["Alle", "1", "2", "3"])
 
-st.sidebar.multiselect("Klasse", ["Alle", "1", "2", "3"],default=["Alle"],
+gekozen_klasse = st.sidebar.multiselect("Klasse", ["Alle", "1", "2", "3"],default=["Alle"],
 )
 
 if gekozen_klasse == "Alle":
