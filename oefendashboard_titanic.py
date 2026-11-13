@@ -16,7 +16,7 @@ def laad_data():
     
     # Missende leeftijden opvullen met het gemiddelde.
     df["Age"] = df["Age"].fillna(df["Age"].mean())
-    df[["Age","Survived"]].corr()
+    
 
     # De twee rijen zonder opstapplaats gooien we weg.
     df = df.dropna(subset=["Embarked"])
@@ -25,7 +25,7 @@ def laad_data():
     df["Klasse"] = df["Pclass"].astype(str)
 
     return df
-
+df[["Age","Survived"]].corr()
 
 def laad_havens():
     """Tweede bron: de opstapplaatsen achter de codes S, C en Q."""
