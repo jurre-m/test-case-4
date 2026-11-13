@@ -70,7 +70,7 @@ figuur1 = px.bar(
     x="Klasse",
     y="Survived",
     title="Overlevenden per klasse",
-    color= gekozen_kleur,
+    color_discrete_sequence=gekozen_kleur,
 )
 st.plotly_chart(figuur1, use_container_width=True)
 
@@ -85,7 +85,7 @@ figuur2 = px.bar(
     x="Haven",
     y="Survived",
     title="Overlevenden per opstapplaats",
-    color= gekozen_kleur,
+    color_discrete_sequence=gekozen_kleur,
 )
 st.plotly_chart(figuur2, use_container_width=True)
 
