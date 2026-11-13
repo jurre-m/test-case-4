@@ -1,5 +1,13 @@
 streamlit
 pandas
 numpy
+pyarrow
 plotly
-kagglehub
+scipy
+statsmodels
+shapely
+# only needed for the notebooks
+requests
+matplotlib
+holidays
+scikit-learn
