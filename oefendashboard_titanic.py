@@ -30,9 +30,9 @@ def laad_havens():
     """Tweede bron: de opstapplaatsen achter de codes S, C en Q."""
     return pd.DataFrame(
         {
-            "Embarked": ["S", "C", "Q"],
-            "Haven": ["Southampton", "Cherbourg", "Queenstown"],
-            "Land": ["Engeland", "Frankrijk", "Ierland"],
+            "Embarked": ["S", "C", "Q", "S"],
+            "Haven": ["Southampton", "Cherbourg", "Queenstown", "Southampton (dok2)],
+            "Land": ["Engeland", "Frankrijk", "Ierland", "Engeland"],
         }
     )
 
