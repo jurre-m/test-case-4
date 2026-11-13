@@ -25,7 +25,7 @@ def laad_data():
     df["Klasse"] = df["Pclass"].astype(str)
 
     return df
-df[["Age","Survived"]].corr()
+
 
 def laad_havens():
     """Tweede bron: de opstapplaatsen achter de codes S, C en Q."""
@@ -109,3 +109,6 @@ st.plotly_chart(figuur3, use_container_width=True)
 
 st.subheader("Samenhang tussen de getalskolommen")
 st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
+
+
+df[["Age","Survived"]].corr()
