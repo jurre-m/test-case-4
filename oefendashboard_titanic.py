@@ -124,5 +124,5 @@ st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
 if ruw:
     selectie
 
-tabel = selectie.groupby(['Haven', 'Klasse'])['Survived'].mean().reset_index()
-st.write(tabel)
+getallen = selectie.groupby(['Klasse'])['Survived'].count().mean().reset_index()
+st.write(getallen)
