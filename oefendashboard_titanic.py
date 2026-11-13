@@ -12,7 +12,7 @@ st.set_page_config(page_title="Titanic oefendashboard", layout="wide")
 def laad_data():
     #df_1 = pd.read_csv(BESTAND)
 
-    df = pd.read_csv(wi.PROC / "train.csv")
+    df = pd.read_csv("train.csv")
     
     # Missende leeftijden opvullen met het gemiddelde.
     df["Age"] = df["Age"].fillna(df["Age"].mean())
