@@ -51,6 +51,8 @@ if gekozen_klasse == "Alle":
 else:
     selectie = data[data["Klasse"] == gekozen_klasse]
 
+st.sidebar.subheader("Colors")
+gekozen_kleur = st.color_picker("Pick A Color", "#00f900")
 
 # ------------------------------------------------------------------- pagina ---
 st.title("Titanic -- wie overleefde de ramp?")
@@ -68,7 +70,7 @@ figuur1 = px.bar(
     x="Klasse",
     y="Survived",
     title="Overlevenden per klasse",
-    color_discrete_sequence=["#1f77b4"],
+    color_discrete_sequence= gekozen_kleur,
 )
 st.plotly_chart(figuur1, use_container_width=True)
 
@@ -83,7 +85,7 @@ figuur2 = px.bar(
     x="Haven",
     y="Survived",
     title="Overlevenden per opstapplaats",
-    color_discrete_sequence=["#1f77b4"],
+    color_discrete_sequence= gekozen_kleur,
 )
 st.plotly_chart(figuur2, use_container_width=True)
 
