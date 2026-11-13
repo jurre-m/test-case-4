@@ -69,19 +69,11 @@ if survived:
 
 st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
 
-
 st.header("Overlevenden per klasse")
 
-
-
 # Let op: dit is een som, geen percentage.
-per_klasse = selectie.groupby("Klasse")["Survived"].sum().reset_index()
+per_klasse = selectie.groupby("Klasse")["Survived"].mean().reset_index()
 per_klasse = per_klasse.sort_values("Klasse")
-
-
-
-
-
 
 figuur1 = px.bar(
     per_klasse,
