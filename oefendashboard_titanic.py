@@ -16,6 +16,7 @@ def laad_data():
     
     # Missende leeftijden opvullen met het gemiddelde.
     df["Age"] = df["Age"].fillna(df["Age"].mean())
+    df[["Age","Survived"]].corr()
 
     # De twee rijen zonder opstapplaats gooien we weg.
     df = df.dropna(subset=["Embarked"])
