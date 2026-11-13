@@ -88,7 +88,7 @@ st.plotly_chart(figuur1, use_container_width=True)
 st.header("Overlevenden per opstapplaats")
 
 per_haven = selectie.groupby("Haven")["Survived"].sum().reset_index()
-per_haven = per_haven.sort_values(by= per_haven['Survived'])
+per_haven = per_haven.sort_values(by= 'Survived', ascending=False)
 
 figuur2 = px.bar(
     per_haven,
