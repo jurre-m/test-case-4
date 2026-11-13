@@ -60,6 +60,11 @@ gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
 st.title("Titanic -- wie overleefde de ramp?")
 st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
 
+survived = st.checkbox("Alleen overlevenden")
+
+if survived:
+    selectie[selectie["Survived"] == 1]
+
 
 st.header("Overlevenden per klasse")
 
