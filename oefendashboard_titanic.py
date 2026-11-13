@@ -103,6 +103,7 @@ figuur3 = px.scatter(
     color="Klasse",
     hover_data=["Name"],
     title="Leeftijd tegen ticketprijs",
+    trendline='ols',
 )
 st.plotly_chart(figuur3, use_container_width=True)
 
