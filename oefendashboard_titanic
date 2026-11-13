@@ -1,0 +1,108 @@
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+
+BESTAND = "../titanic/train.csv"
+
+st.set_page_config(page_title="Titanic oefendashboard", layout="wide")
+
+
+# --------------------------------------------------------------- data laden ---
+@st.cache_data
+def laad_data():
+    df = pd.read_csv(BESTAND)
+
+    # Missende leeftijden opvullen met het gemiddelde.
+    df["Age"] = df["Age"].fillna(df["Age"].mean())
+
+    # De twee rijen zonder opstapplaats gooien we weg.
+    df = df.dropna(subset=["Embarked"])
+
+    # Klasse als tekst, zodat Plotly er losse categorieen van maakt.
+    df["Klasse"] = df["Pclass"].astype(str)
+
+    return df
+
+
+def laad_havens():
+    """Tweede bron: de opstapplaatsen achter de codes S, C en Q."""
+    return pd.DataFrame(
+        {
+            "Embarked": ["S", "C", "Q"],
+            "Haven": ["Southampton", "Cherbourg", "Queenstown"],
+            "Land": ["Engeland", "Frankrijk", "Ierland"],
+        }
+    )
+
+
+data = laad_data()
+havens = laad_havens()
+data = data.merge(havens, on="Embarked", how="left")
+
+
+# ------------------------------------------------------------------ sidebar ---
+st.sidebar.header("Filters")
+gekozen_klasse = st.sidebar.selectbox("Klasse", ["Alle", "1", "2", "3"])
+
+if gekozen_klasse == "Alle":
+    selectie = data
+else:
+    selectie = data[data["Klasse"] == gekozen_klasse]
+
+
+# ------------------------------------------------------------------- pagina ---
+st.title("Titanic -- wie overleefde de ramp?")
+st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
+
+
+st.header("Overlevenden per klasse")
+
+# Let op: dit is een som, geen percentage.
+per_klasse = selectie.groupby("Klasse")["Survived"].sum().reset_index()
+per_klasse = per_klasse.sort_values("Klasse")
+
+figuur1 = px.bar(
+    per_klasse,
+    x="Klasse",
+    y="Survived",
+    title="Overlevenden per klasse",
+    color_discrete_sequence=["#1f77b4"],
+)
+st.plotly_chart(figuur1, use_container_width=True)
+
+
+st.header("Overlevenden per opstapplaats")
+
+per_haven = selectie.groupby("Haven")["Survived"].sum().reset_index()
+per_haven = per_haven.sort_values("Haven")
+
+figuur2 = px.bar(
+    per_haven,
+    x="Haven",
+    y="Survived",
+    title="Overlevenden per opstapplaats",
+    color_discrete_sequence=["#1f77b4"],
+)
+st.plotly_chart(figuur2, use_container_width=True)
+
+
+st.header("Duurste tickets")
+
+duurste = selectie.nlargest(10, "Fare")[["Name", "Klasse", "Haven", "Fare", "Survived"]]
+st.dataframe(duurste, use_container_width=True)
+
+
+st.header("Leeftijd en ticketprijs")
+
+figuur3 = px.scatter(
+    selectie,
+    x="Age",
+    y="Fare",
+    color="Klasse",
+    hover_data=["Name"],
+    title="Leeftijd tegen ticketprijs",
+)
+st.plotly_chart(figuur3, use_container_width=True)
+
+st.subheader("Samenhang tussen de getalskolommen")
+st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
