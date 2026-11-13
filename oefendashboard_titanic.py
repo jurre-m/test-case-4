@@ -15,7 +15,7 @@ def laad_data():
     df = pd.read_csv("train.csv")
     
     # Missende leeftijden opvullen met het gemiddelde.
-    df = df.dropna()
+    df["Age"] = df["Age"].fillna(df["Age"].mean())
 
     # De twee rijen zonder opstapplaats gooien we weg.
     df = df.dropna(subset=["Embarked"])
