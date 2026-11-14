@@ -57,9 +57,7 @@ else:
 
 selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
 
-result = np.select([selectie['Age'] < 18, selectie['Age'] < 65], ["Kind", "Volwassene"], default="Senior")
-
-selectie['Leeftijdsgroep'] = np.select(condlist, choicelist, default=42)
+selectie['Leeftijdsgroep'] = np.select([selectie['Age'] < 18, selectie['Age'] < 65], ["Kind", "Volwassene"], default="Senior")
 
 
 st.sidebar.subheader("Colors")
