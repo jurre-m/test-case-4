@@ -41,7 +41,7 @@ data = laad_data()
 havens = laad_havens()
 data = data.merge(havens, on="Embarked", how="left")
 
-selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
+
 
 # ------------------------------------------------------------------ sidebar ---
 st.sidebar.header("Filters")
@@ -53,6 +53,8 @@ if gekozen_klasse == "Alle":
     selectie = data
 else:
     selectie = data[data["Klasse"] == gekozen_klasse]
+
+selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
 
 st.sidebar.subheader("Colors")
 gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
