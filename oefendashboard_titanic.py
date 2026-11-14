@@ -95,14 +95,14 @@ st.header("Overlevenden per klasse")
 per_klasse = selectie.groupby("Klasse")["Survived"].mean().reset_index()
 per_klasse = per_klasse.sort_values("Klasse")
 
-#figuur1 = px.bar(
-#    per_klasse,
-#    x="Klasse",
-#    y="Survived",
-#    title="Overlevenden per klasse",
-#    color_discrete_sequence=[gekozen_kleur],
-#)
-#st.plotly_chart(figuur1, use_container_width=True)
+figuur1 = px.bar(
+    per_klasse,
+    x="Klasse",
+    y="Survived",
+    title="Overlevenden per klasse",
+    color_discrete_sequence=[gekozen_kleur],
+)
+st.plotly_chart(figuur1, use_container_width=True)
 
 
 st.header("Overlevenden per opstapplaats")
@@ -153,10 +153,10 @@ st.write(familie)
 leeftijd = selectie.groupby(['Leeftijdsgroep'])['Survived'].agg(["mean"])
 st.write(leeftijd)
 
-figuur4 = staafdiagram(per_klasse,"Klasse","Overlevenden per klasse")
+#figuur4 = staafdiagram(per_klasse,"Klasse","Overlevenden per klasse")
 
-st.plotly_chart(figuur4, use_container_width=True)
+#st.plotly_chart(figuur4, use_container_width=True)
 
-figuur5 = staafdiagram(per_haven,"Haven","Overlevenden per opstapplaats")
+#figuur5 = staafdiagram(per_haven,"Haven","Overlevenden per opstapplaats")
 
-st.plotly_chart(figuur5, use_container_width=True)
+#st.plotly_chart(figuur5, use_container_width=True)
