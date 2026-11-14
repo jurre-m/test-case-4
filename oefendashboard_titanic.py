@@ -41,6 +41,7 @@ data = laad_data()
 havens = laad_havens()
 data = data.merge(havens, on="Embarked", how="left")
 
+selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
 
 # ------------------------------------------------------------------ sidebar ---
 st.sidebar.header("Filters")
@@ -131,3 +132,6 @@ if ruw:
 
 getallen = selectie.groupby(['Klasse'])['Survived'].agg(["mean","count"])
 st.write(getallen)
+
+familie = selectie.groupby(['Familiegrootte'])['Survived'].agg(["mean"])
+st.write(familie)
