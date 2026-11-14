@@ -1,7 +1,21 @@
+"""Oefendashboard Titanic -- de startversie voor de oefenset live coding.
+
+Dit dashboard werkt, maar is bewust simpel gehouden: er staan dingen vast die
+instelbaar kunnen, er is maar één soort filter, een aggregatie staat op som in
+plaats van gemiddelde, en er is geen enkele KPI. Precies de dingen die je op het
+examen gevraagd kunt worden aan te passen.
+
+Draaien:
+    pip install streamlit pandas plotly
+    streamlit run oefendashboard_titanic.py
+
+Het bestand train.csv staat in de map titanic/ naast deze map. Werkt het pad
+niet, pas dan BESTAND hieronder aan.
+"""
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-import numpy as np
 
 BESTAND = "../titanic/train.csv"
 
@@ -11,10 +25,8 @@ st.set_page_config(page_title="Titanic oefendashboard", layout="wide")
 # --------------------------------------------------------------- data laden ---
 @st.cache_data
 def laad_data():
-    #df_1 = pd.read_csv(BESTAND)
+    df = pd.read_csv(BESTAND)
 
-    df = pd.read_csv("train.csv")
-    
     # Missende leeftijden opvullen met het gemiddelde.
     df["Age"] = df["Age"].fillna(df["Age"].mean())
 
@@ -31,68 +43,37 @@ def laad_havens():
     """Tweede bron: de opstapplaatsen achter de codes S, C en Q."""
     return pd.DataFrame(
         {
-            "Embarked": ["S", "C", "Q", "S"],
-            "Haven": ["Southampton", "Cherbourg", "Queenstown", "Southampton (dok2)"],
-            "Land": ["Engeland", "Frankrijk", "Ierland", "Engeland"],
+            "Embarked": ["S", "C", "Q"],
+            "Haven": ["Southampton", "Cherbourg", "Queenstown"],
+            "Land": ["Engeland", "Frankrijk", "Ierland"],
         }
     )
 
-def staafdiagram(col,x_as,title_input):
-    return px.bar(
-        col,
-        x=x_as,
-        y="Survived",
-        title=title_input,
-        color_discrete_sequence=[gekozen_kleur],
-    )
 
 data = laad_data()
 havens = laad_havens()
 data = data.merge(havens, on="Embarked", how="left")
 
 
-
 # ------------------------------------------------------------------ sidebar ---
 st.sidebar.header("Filters")
 gekozen_klasse = st.sidebar.selectbox("Klasse", ["Alle", "1", "2", "3"])
-
-# gekozen_klasse = st.sidebar.multiselect("Klasse", ["1", "2", "3"],default=["1", "2", "3"],)
 
 if gekozen_klasse == "Alle":
     selectie = data
 else:
     selectie = data[data["Klasse"] == gekozen_klasse]
 
-selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
-
-selectie['Leeftijdsgroep'] = np.select([selectie['Age'] < 18, selectie['Age'] < 65], ["Kind", "Volwassene"], default="Senior")
-
-
-st.sidebar.subheader("Colors")
-gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
-
-st.sidebar.subheader("Ruw")
-ruw = st.sidebar.checkbox("laat ruwe data zien")
 
 # ------------------------------------------------------------------- pagina ---
 st.title("Titanic -- wie overleefde de ramp?")
-
-#col1, col2, col3 = st.columns(3)
-#col1.metric("Aantal passagiers", selectie['PassengerId'].count())
-#col2.metric("Overlevingskans", selectie['Survived'].value_counts(normalize=True))
-#col3.metric("Gemiddelde prijs", selectie['PassengerId'].count())
-
-survived = st.checkbox("Alleen overlevenden")
-
-if survived:
-    selectie = selectie[selectie["Survived"] == 1]
-
 st.write(f"Aantal passagiers in de selectie: {len(selectie)}")
+
 
 st.header("Overlevenden per klasse")
 
 # Let op: dit is een som, geen percentage.
-per_klasse = selectie.groupby("Klasse")["Survived"].mean().reset_index()
+per_klasse = selectie.groupby("Klasse")["Survived"].sum().reset_index()
 per_klasse = per_klasse.sort_values("Klasse")
 
 figuur1 = px.bar(
@@ -100,7 +81,7 @@ figuur1 = px.bar(
     x="Klasse",
     y="Survived",
     title="Overlevenden per klasse",
-    color_discrete_sequence=[gekozen_kleur],
+    color_discrete_sequence=["#1f77b4"],
 )
 st.plotly_chart(figuur1, use_container_width=True)
 
@@ -108,21 +89,21 @@ st.plotly_chart(figuur1, use_container_width=True)
 st.header("Overlevenden per opstapplaats")
 
 per_haven = selectie.groupby("Haven")["Survived"].sum().reset_index()
-per_haven = per_haven.sort_values(by= 'Survived', ascending=False)
+per_haven = per_haven.sort_values("Haven")
 
 figuur2 = px.bar(
     per_haven,
     x="Haven",
     y="Survived",
     title="Overlevenden per opstapplaats",
-    color_discrete_sequence=[gekozen_kleur],
+    color_discrete_sequence=["#1f77b4"],
 )
 st.plotly_chart(figuur2, use_container_width=True)
 
-aantal = st.slider("aantal tickets", 5, 50, 10)
-st.header(f"Duurste {aantal} tickets")
 
-duurste = selectie.nlargest(aantal, "Fare")[["Name", "Klasse", "Haven", "Fare", "Survived"]]
+st.header("Duurste tickets")
+
+duurste = selectie.nlargest(10, "Fare")[["Name", "Klasse", "Haven", "Fare", "Survived"]]
 st.dataframe(duurste, use_container_width=True)
 
 
@@ -140,23 +121,3 @@ st.plotly_chart(figuur3, use_container_width=True)
 
 st.subheader("Samenhang tussen de getalskolommen")
 st.write(selectie[["Age", "Fare", "SibSp", "Parch", "Survived"]].corr())
-
-if ruw:
-    selectie
-
-getallen = selectie.groupby(['Klasse'])['Survived'].agg(["mean","count"])
-st.write(getallen)
-
-familie = selectie.groupby(['Familiegrootte'])['Survived'].agg(["mean"])
-st.write(familie)
-
-leeftijd = selectie.groupby(['Leeftijdsgroep'])['Survived'].agg(["mean"])
-st.write(leeftijd)
-
-#figuur4 = staafdiagram(per_klasse,"Klasse","Overlevenden per klasse")
-
-#st.plotly_chart(figuur4, use_container_width=True)
-
-#figuur5 = staafdiagram(per_haven,"Haven","Overlevenden per opstapplaats")
-
-#st.plotly_chart(figuur5, use_container_width=True)
