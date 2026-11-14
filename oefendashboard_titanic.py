@@ -57,9 +57,7 @@ else:
 
 selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
 
-condlist = [selectie['Age'] < 18, selectie['Age'] < 65]
-choicelist = ["Kind", "Volwassene"]
-result = np.select(condlist, choicelist, default="Senior")
+result = np.select([selectie['Age'] < 18, selectie['Age'] < 65], ["Kind", "Volwassene"], default="Senior")
 
 selectie['Leeftijdsgroep'] = np.select(condlist, choicelist, default=42)
 
