@@ -64,8 +64,8 @@ st.title("Titanic -- wie overleefde de ramp?")
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Aantal passagiers", selectie['PassengerId'].count())
-col2.metric("Overlevingskans", "9 mph")
-col3.metric("Gemiddelde prijs", "86%")
+col2.metric("Overlevingskans", selectie['Survived'].value_counts(normalize=True))
+col3.metric("Gemiddelde prijs", selectie['PassengerId'].count())
 
 survived = st.checkbox("Alleen overlevenden")
 
