@@ -56,6 +56,13 @@ else:
 
 selectie['Familiegrootte'] = selectie['SibSp'] + selectie['Parch']
 
+condlist = [selectie['Age'] < 18, selectie['Age'] < 65]
+choicelist = ["Kind", "Volwassene"]
+result = np.select(condlist, choicelist, default="Senior")
+
+selectie['Leeftijdsgroep'] = np.select(condlist, choicelist, default=42)
+
+
 st.sidebar.subheader("Colors")
 gekozen_kleur = st.sidebar.color_picker("Pick A Color", "#00f900")
 
@@ -137,3 +144,6 @@ st.write(getallen)
 
 familie = selectie.groupby(['Familiegrootte'])['Survived'].agg(["mean"])
 st.write(familie)
+
+leeftijd = selectie.groupby(['Leeftijdsgroep'])['Survived'].agg(["mean"])
+st.write(leeftijd)
