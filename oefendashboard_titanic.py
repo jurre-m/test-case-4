@@ -37,6 +37,14 @@ def laad_havens():
         }
     )
 
+def staafdiagram(col,x_as,title_input):
+    return px.bar(
+        col,
+        x=x_as,
+        y="Survived",
+        title=title_input,
+        color_discrete_sequence=[gekozen_kleur],
+    )
 
 data = laad_data()
 havens = laad_havens()
@@ -144,3 +152,11 @@ st.write(familie)
 
 leeftijd = selectie.groupby(['Leeftijdsgroep'])['Survived'].agg(["mean"])
 st.write(leeftijd)
+
+figuur4 = staafdiagram(per_klasse,"Klasse","Overlevenden per klasse")
+
+st.plotly_chart(figuur4, use_container_width=True)
+
+figuur5 = staafdiagram(per_haven,"Haven","Overlevenden per opstapplaats")
+
+st.plotly_chart(figuur5, use_container_width=True)
